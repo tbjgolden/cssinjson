@@ -1,0 +1,9 @@
+{
+  "name": "nanocss",
+  "version": "0.0.0",
+  "description": "CSS in JSON - The optimal way to decrease your CSS bytes",
+  "main": "index.js",
+  "repository": "https://github.com/tbjgolden/nanocss.git",
+  "author": "Tom Golden <tbjgolden@gmail.com>",
+  "license": "MIT"
+}
