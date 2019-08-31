@@ -9,7 +9,8 @@ export default [
     output: {
       name: 'nCSS',
       file: pkg.browser,
-      format: 'umd'
+      format: 'umd',
+      exports: 'named'
     },
     plugins: [
       resolve(),
@@ -21,8 +22,8 @@ export default [
     input: 'src/index.js',
     external: [],
     output: [
-      { file: pkg.main, format: 'cjs' },
-      { file: pkg.module, format: 'es' }
+      { file: pkg.main, format: 'cjs', exports: 'named' },
+      { file: pkg.module, format: 'es', exports: 'named' }
     ]
   }
 ];
