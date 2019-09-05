@@ -5,6 +5,11 @@
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.umd.js",
+  "es5": {
+    "main": "dist/es5/index.cjs.js",
+    "module": "dist/es5/index.esm.js",
+    "browser": "dist/es5/index.umd.js"
+  },
   "repository": "https://github.com/tbjgolden/nanocss.git",
   "author": "Tom Golden <tbjgolden@gmail.com>",
   "license": "MIT",
@@ -26,7 +31,9 @@
     "nyc": "^14.1.1",
     "rollup": "^1.20.0",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-node-resolve": "^5.1.0"
+    "rollup-plugin-node-resolve": "^5.1.0",
+    "rollup-plugin-size-snapshot": "^0.10.0",
+    "rollup-plugin-terser": "^5.1.1"
   },
   "scripts": {
     "build": "babel src/ -d es5/ && rollup -c",
@@ -39,7 +46,11 @@
   "babel": {
     "presets": [
       "@babel/preset-flow",
-      "@babel/preset-env"
+      ["@babel/preset-env", {
+        "exclude": [
+          "transform-typeof-symbol"
+        ]
+      }]
     ],
     "plugins": [
       "@babel/plugin-syntax-dynamic-import",
@@ -57,5 +68,8 @@
       "@babel/plugin-proposal-numeric-separator",
       "@babel/plugin-proposal-throw-expressions"
     ]
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

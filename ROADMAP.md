@@ -10,4 +10,3 @@ in this repo.
   * documentation built into app
     * triggered using console or button depending on option
 * CSS output formatting options
-

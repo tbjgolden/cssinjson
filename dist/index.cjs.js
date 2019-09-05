@@ -7,24 +7,35 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const varRegex = /\{(\^*)([0-9a-z])\}/i;
 const ampRegex = /&/g;
 
-const deepClone = obj => JSON.parse(JSON.stringify(obj));
-const is = (x, s) => typeof x === s;
-const isPropVal = x => is(x[0], 'string') && is(x[1], 'string');
-const isRule = x => is(x[0], 'string') && Array.isArray(x[1]) && x[1].every(isPropVal);
+const type = (x, s) => {
+  s = s || 'string';
+  return typeof x === s;
+};
+const isPropVal = x => type(x[0]) && type(x[1]);
+const isRule = x => type(x[0]) && Array.isArray(x[1]) && x[1].every(isPropVal);
 const flatten = x =>
   isRule(x)
     ? [x]
-    : x.map(flatten).reduce((l, x) => [...l, ...x], []);
+    : x.map(flatten).reduce((l, x) => l.concat(x), []);
 
-const inject = (obj, vars, root = true) => {
+function deepClone (obj, clone) {
+  clone = clone || {};
+  for (let k in obj) {
+    const o = obj[k];
+    clone[k] = clone[k] || ((o && type(o, 'object')) ? deepClone(o.constructor(), o) : o);
+  }
+  return clone;
+}
+
+function inject (obj, vars, root = true) {
   if (Array.isArray(obj)) return obj.map(x => inject(x, vars, false));
 
-  obj = `${obj}`;
+  obj += '';
   let match = obj.match(varRegex);
   while (match) {
     const index = vars._.length - match[1].length - 1;
     const k = parseInt(match[2]) || match[2];
-    obj = obj.replace(match[0], (is(k, 'number') ? vars._[index] : vars)[k]);
+    obj = obj.replace(match[0], (type(k, 'number') ? vars._[index] : vars)[k]);
     match = obj.match(varRegex);
   }
 
@@ -34,27 +45,26 @@ const inject = (obj, vars, root = true) => {
   }
 
   return obj;
-};
+}
 
 function flatRulesToCSS (flatRules) {
   return flatRules
-    .map(([rule, propVals]) => `${rule} { ${
-      propVals
-        .map(([prop, val]) => `${prop}: ${val}`)
+    .map(pair => `${pair[0]} { ${
+      pair[1]
+        .map(pair => `${pair[0]}: ${pair[1]}`)
         .join('; ')
     } }`)
     .join('\n');
 }
 
 function sourceToFlatRules (input, vars = {}, root = true) {
-  if (is(input, 'string')) input = JSON.parse(input);
+  if (type(input)) input = JSON.parse(input);
 
-  vars = deepClone(vars);
   let stylesheet = [];
 
   if (Array.isArray(input)) {
     // string
-    if (is(input[0], 'string')) return inject(input, vars);
+    if (type(input[0])) return inject(input, vars);
     // basic loop
     for (let i = 0; i < input.length; i++) {
       stylesheet[i] = sourceToFlatRules(input[i], vars, false);
@@ -65,31 +75,46 @@ function sourceToFlatRules (input, vars = {}, root = true) {
 
     for (let i = 0; i < input.$.length; i++) {
       const sel = inject(input.$[i][0], vars);
-      const newVars = { ...vars, _: [...(vars._ || []), input.$[i]] };
+      const newVars = deepClone(vars, {
+        _: (vars._ || []).concat([input.$[i]])
+      });
       const val = sourceToFlatRules(input._, newVars, false);
       const pair = val.reduce((pair, input) => {
         pair[~~isPropVal(input)].push(input);
         return pair;
       }, [[], []]);
-      indirect.push(
-        ...pair[0].reduce((arr, input) => [...arr, ...input], [])
+      indirect.push.apply(
+        indirect,
+        pair[0].reduce((arr, input) => arr.concat(input), [])
       );
       if (pair[1].length) direct[sel] = (direct[sel] || []).concat(pair[1]);
     }
 
-    stylesheet = [
-      ...Object.entries(direct),
-      ...indirect
-    ];
+    stylesheet = Object.entries(direct).concat(indirect);
   } else { // variable loop
     let combos = [vars];
 
     Object.keys(input)
       .forEach(k => {
         if (k === '_') return;
-        combos = [].concat(
-          ...input[k].map(v => combos.map(c => ({ ...c, [k]: v })))
-        );
+
+        input[k].forEach(v => {
+          combos.map(c => {
+            c = deepClone(c);
+            c[k] = v;
+            return c;
+          });
+        });
+
+        combos = input[k]
+          .map(v => (
+            combos.map(c => {
+              c = deepClone(c);
+              c[k] = v;
+              return c;
+            })
+          ))
+          .reduce((arr, input) => arr.concat(input), []);
       });
     for (let i = combos.length - 1; i >= 0; i--) {
       stylesheet[i] = sourceToFlatRules(input._, combos[i], false);
@@ -103,6 +128,7 @@ function nCSS (input, vars = {}, root = true) {
   return flatRulesToCSS(sourceToFlatRules(input, vars, root));
 }
 
+exports.deepClone = deepClone;
 exports.default = nCSS;
 exports.flatRulesToCSS = flatRulesToCSS;
 exports.inject = inject;
