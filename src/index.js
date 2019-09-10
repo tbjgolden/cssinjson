@@ -1,4 +1,4 @@
-const varRegex = /\{(\^*)([0-9a-z])\}/i;
+const varRegex = /\{(\^*)([0-9a-z]+)\}/i;
 const ampRegex = /&/g;
 
 // Helpers
@@ -27,9 +27,12 @@ export function inject (obj, vars, root) {
 
   obj += '';
   let match = obj.match(varRegex);
+
   while (match) {
     const index = vars._.length - match[1].length - 1;
-    const k = parseInt(match[2]) || match[2];
+    const n = parseInt(match[2]);
+    /* eslint-disable-next-line no-self-compare */
+    const k = (n === n && index >= 0) ? n : match[2];
     obj = obj.replace(match[0], (type(k, 'n') ? vars._[index] : vars)[k]);
     match = obj.match(varRegex);
   }

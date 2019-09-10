@@ -3,30 +3,44 @@ const { inject } = require('..');
 
 const tests = [
   [
-    '{i}',
-    { i: 'hello' },
+    ['{i}', { i: 'hello' }],
     'hello'
-    //      ['&r{i}', '-right'],
-    //    ['&b{i}', '-bottom']
-    //  ],
-    //  _: [['{^1}{1}', '{i}rem']]
   ],
   [
-    'i am a humble selector',
-    undefined,
+    ['i am a humble selector'],
     'i am a humble selector'
-    //      ['&r{i}', '-right'],
-    //    ['&b{i}', '-bottom']
-    //  ],
-    //  _: [['{^1}{1}', '{i}rem']]
+  ],
+  [
+    [
+      [['{var}', 'it works deep thru arrays too']],
+      { var: 'suppose' }
+    ],
+    [['suppose', 'it works deep thru arrays too']]
+  ],
+  [
+    [
+      '{1}{^1}{0}{^0}',
+      { _: [['a', 'b'], ['c', 'd']] },
+      false
+    ],
+    'dbca'
+  ],
+  [
+    [
+      '.&selector',
+      { _: [['expanded-']] },
+      true
+    ],
+    '.expanded-selector'
   ]
 ];
 
+global.hi = true;
 let fails = 0;
-tests.forEach(([inp1, inp2, expected]) => {
+tests.forEach(([args, expected]) => {
   try {
     assert.strict.deepEqual(
-      inject(inp1, inp2),
+      inject(...args),
       expected
     );
   } catch (err) {
@@ -34,5 +48,6 @@ tests.forEach(([inp1, inp2, expected]) => {
     console.error(err);
   }
 });
+global.hi = false;
 
 module.exports = [fails, tests.length];

@@ -6,7 +6,7 @@ exports.inject = inject;
 exports.generate = generate;
 exports.flatten = flatten;
 exports["default"] = nCSS;
-var varRegex = /\{(\^*)([0-9a-z])\}/i;
+var varRegex = /\{(\^*)([0-9a-z]+)\}/i;
 var ampRegex = /&/g; // Helpers
 
 function type(x, s) {
@@ -61,7 +61,10 @@ function inject(obj, vars, root) {
 
   while (match) {
     var index = vars._.length - match[1].length - 1;
-    var k = parseInt(match[2]) || match[2];
+    var n = parseInt(match[2]);
+    /* eslint-disable-next-line no-self-compare */
+
+    var k = n === n && index >= 0 ? n : match[2];
     obj = obj.replace(match[0], (type(k, 'n') ? vars._[index] : vars)[k]);
     match = obj.match(varRegex);
   }
