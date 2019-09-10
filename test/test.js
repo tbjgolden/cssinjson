@@ -9,6 +9,9 @@ const logResults = (name, [fails, total]) => {
   }
 };
 
-logResults('sourceToFlatRules()', require('./sourceToFlatRules'));
-logResults('flatRulesToCSS()', require('./flatRulesToCSS'));
+logResults('(sanity checks)', require('./sanity'));
+logResults('deepClone()', require('./deepClone'));
+logResults('flatten()', require('./flatten'));
+logResults('inject()', require('./inject'));
+logResults('generate()', require('./generate'));
 logResults('nCSS()', require('./default'));

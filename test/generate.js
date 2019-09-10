@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { flatRulesToCSS } = require('..');
+const { generate } = require('..');
 
 const tests = [
   [
@@ -41,7 +41,7 @@ let fails = 0;
 tests.forEach(([input, expected]) => {
   try {
     assert.strict.deepEqual(
-      flatRulesToCSS(input),
+      generate(input),
       expected
     );
   } catch (err) {

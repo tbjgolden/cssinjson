@@ -6,10 +6,11 @@
 
 **CSS is verbose**.
 
-CSS preprocessor source files (.scss, .less) convey the same information in
-a much smaller data footprint.
+CSS preprocessor source files (.scss, .less) generate the same output from much
+less code, by including variables and loops.
 
-But it could be even smaller.
+This project takes that principle and extends it by reducing it to a
+JSON-encoded language designed to be as small as possible<sup>[1][2]</sup>.
 
 ## `nanoCSS` is as small as it gets
 
@@ -18,18 +19,30 @@ like server-side-oriented preprocessors.
 
 Kind of like a vector drawing but for CSS.
 
-Unlike SVGs though, nanoCSS has no built in browser compiler, so the size of
-the compiler must be extremely small, as it also must be sent to the client.
+(<sup>[1]</sup>) Unlike SVGs though, nanoCSS has no built in browser compiler,
+so the size of the compiler must be extremely small, as it also must be sent to
+the client.
 
 ## How big is this compiler?
 
-Very small.
+(<sup>[2]</sup>) nanocss's full compiler is 923 bytes compressed and gzipped.
+That's smaller than every CSS framework (even mincss, which is 995).
 
 The compiler relies on JSON.parse to reduce the size of the payload, and then
-implements a tiny recursive LR(1) algorithm to turn it into a flattened
-stylesheet array, or raw CSS.
+implements a tiny recursive algorithm to turn it into a flattened stylesheet
+array, or raw CSS.
+
+It comes in both ES6+ (923 bytes) and ES5-compliant (1044 bytes) variants.
 
 ## Usage
+
+This library contains the specification of the language, a compiler and
+relevant documentation.
+
+It doesn't specify how it is to be used, and can be used with `import`,
+`require` or in a browser - just like anything else.
+
+Specific use case implementations are not implemented in this library.
 
 ```sh
 # Some usage instructions

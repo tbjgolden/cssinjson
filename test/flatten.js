@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { sourceToFlatRules } = require('..');
+const { flatten } = require('..');
 
 const tests = [
   [
@@ -7,28 +7,26 @@ const tests = [
       ['.blue', [['color', 'blue']]],
       {
         i: [0, 1, 2, 3, 4],
-        _: {
-          $: [['.m', 'margin'], ['.p', 'padding']],
-          _: [
-            {
-              $: [['{i}']],
-              _: [
-                ['{^1}', '{i}rem']
-              ]
-            },
-            {
-              $: [
-                ['t{i}', '-top'],
-                ['l{i}', '-left'],
-                ['&r{i}', '-right'],
-                ['&b{i}', '-bottom']
-              ],
-              _: [
-                ['{^1}{1}', '{i}rem']
-              ]
-            }
-          ]
-        }
+        _: [
+          {
+            $: [['.m', 'margin'], ['.p', 'padding']],
+            _: [
+              {
+                $: [['{i}']],
+                _: [['{^1}', '{i}rem']]
+              },
+              {
+                $: [
+                  ['t{i}', '-top'],
+                  ['l{i}', '-left'],
+                  ['&r{i}', '-right'],
+                  ['&b{i}', '-bottom']
+                ],
+                _: [['{^1}{1}', '{i}rem']]
+              }
+            ]
+          }
+        ]
       }
     ],
     [
@@ -90,10 +88,7 @@ const tests = [
 let fails = 0;
 tests.forEach(([input, expected]) => {
   try {
-    assert.strict.deepEqual(
-      sourceToFlatRules(input),
-      expected
-    );
+    assert.strict.deepEqual(flatten(input), expected);
   } catch (err) {
     fails += 1;
     console.error(err);
