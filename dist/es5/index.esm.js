@@ -61,7 +61,8 @@ function inject(obj, vars, root) {
 
   while (match) {
     var index = vars._.length - match[1].length - 1;
-    var n = parseInt(match[2]);
+    var n = parseInt(match[2]); // checks if arg name is an integer and if it's for a valid ancestor index
+
     /* eslint-disable-next-line no-self-compare */
 
     var k = n === n && index >= 0 ? n : match[2];

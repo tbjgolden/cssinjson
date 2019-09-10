@@ -35,6 +35,7 @@ function inject (obj, vars, root) {
   while (match) {
     const index = vars._.length - match[1].length - 1;
     const n = parseInt(match[2]);
+    // checks if arg name is an integer and if it's for a valid ancestor index
     /* eslint-disable-next-line no-self-compare */
     const k = (n === n && index >= 0) ? n : match[2];
     obj = obj.replace(match[0], (type(k, 'n') ? vars._[index] : vars)[k]);
