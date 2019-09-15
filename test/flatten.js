@@ -5,8 +5,17 @@ const tests = [
   [
     [
       ['.blue', [['color', 'blue']]],
+      [
+        '@media screen',
+        [
+          [
+            '.blue',
+            [['color', 'lightblue']]
+          ]
+        ]
+      ],
       {
-        i: [0, 1, 2, 3, 4],
+        i: '5',
         _: [
           {
             $: [['.m', 'margin'], ['.p', 'padding']],
@@ -31,6 +40,7 @@ const tests = [
     ],
     [
       ['.blue', [['color', 'blue']]],
+      ['@media screen', [['.blue', [['color', 'lightblue']]]]],
       ['.m0', [['margin', '0rem']]],
       ['.mt0', [['margin-top', '0rem']]],
       ['.ml0', [['margin-left', '0rem']]],
@@ -81,6 +91,54 @@ const tests = [
       ['.pl4', [['padding-left', '4rem']]],
       ['.pr4', [['padding-right', '4rem']]],
       ['.pb4', [['padding-bottom', '4rem']]]
+    ]
+  ],
+  [
+    [
+      {
+        i: '0',
+        _: [
+          [
+            '.m{i}',
+            [['margin', '{i}px']]
+          ]
+        ]
+      },
+      {
+        i: '1',
+        _: [
+          [
+            '.m{i}',
+            [['margin', '{i}px']]
+          ]
+        ]
+      },
+      {
+        i: '3:5',
+        _: [
+          [
+            '.m{i}',
+            [['margin', '{i}px']]
+          ]
+        ]
+      },
+      {
+        i: '6:2:12',
+        _: [
+          [
+            '.m{i}',
+            [['margin', '{i}px']]
+          ]
+        ]
+      }
+    ],
+    [
+      ['.m0', [['margin', '0px']]],
+      ['.m3', [['margin', '3px']]],
+      ['.m4', [['margin', '4px']]],
+      ['.m6', [['margin', '6px']]],
+      ['.m8', [['margin', '8px']]],
+      ['.m10', [['margin', '10px']]]
     ]
   ]
 ];

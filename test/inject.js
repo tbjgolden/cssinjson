@@ -35,7 +35,6 @@ const tests = [
   ]
 ];
 
-global.hi = true;
 let fails = 0;
 tests.forEach(([args, expected]) => {
   try {
@@ -48,6 +47,5 @@ tests.forEach(([args, expected]) => {
     console.error(err);
   }
 });
-global.hi = false;
 
 module.exports = [fails, tests.length];

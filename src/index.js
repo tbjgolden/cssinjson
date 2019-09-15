@@ -4,10 +4,34 @@ const ampRegex = /&/g;
 // Helpers
 function type (x, s) { s = s || 's'; return (typeof x)[0] === s; }
 function isPropVal (x) { return type(x[0]) && type(x[1]); }
-function isRule (x) { return type(x[0]) && Array.isArray(x[1]) && x[1].every(isPropVal); }
+function isRule (x) {
+  if (!type(x[0]) || !Array.isArray(x[1])) return false;
+  let c = 1;
+  for (let i = 0; i < x[1].length; i++) {
+    if (!isPropVal(x[1][i])) c = 2;
+  }
+  return c;
+}
 function concatAll (xs) { return xs.reduce((l, x) => l.concat(x), []); }
 function array (o) { return Array.isArray(o) ? o : [o]; }
-function flat (x, notRoot) { return isRule(x) ? [x] : concatAll(x.map(y => flat(y, true))); }
+function flat (x) {
+  const c = isRule(x);
+  if (c === 2) x[1] = flat(x[1]);
+  return c ? [x] : concatAll(x.map(y => flat(y)));
+}
+function range (s) {
+  const args = s.split(':').map(n => parseInt(n)).slice(0, 3);
+  const start = args.length > 1 ? args[0] : 0;
+  const end = args[args.length - 1];
+  const step = args.length > 2 ? args[1] : 1;
+  const range = [];
+  let next = start;
+  while (start <= next && next < end) {
+    range.push(next);
+    next += step;
+  }
+  return range;
+}
 
 export function deepClone (obj, clone) {
   clone = clone || {};
@@ -50,7 +74,11 @@ export function generate (flatRules) {
   return flatRules
     .map(pair => `${pair[0]} { ${
       pair[1]
-        .map(pair => `${pair[0]}: ${pair[1]}`)
+        .map(pair => (
+          Array.isArray(pair[1])
+            ? generate([pair])
+            : `${pair[0]}: ${pair[1]}`
+        ))
         .join('; ')
     } }`)
     .join('\n');
@@ -101,6 +129,8 @@ export function flatten (input, vars, root) {
     Object.keys(input)
       .forEach(k => {
         if (k === '_') return;
+
+        if (type(input[k])) input[k] = range(input[k]);
 
         combos = concatAll(
           input[k]

@@ -1,7 +1,8 @@
 # Initial release objectives
 
 - [ ] documentation
-- [ ] (first class) nested css support
+- [x] nested css support
+- [x] basic range support
 - [ ] CSS output formatting options
 - [ ] option to pass in custom middleware function for custom checks
 - [ ] embedded version?

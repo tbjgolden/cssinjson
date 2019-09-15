@@ -4,8 +4,18 @@ const nCSS = require('..').default;
 const tests = [
   [
     [
+      ['.blue', [['color', 'blue']]],
+      [
+        '@media screen',
+        [
+          [
+            '.blue',
+            [['color', 'lightblue']]
+          ]
+        ]
+      ],
       {
-        i: [0, 1],
+        i: '2',
         _: {
           $: [['.m', 'margin']],
           _: [
@@ -28,7 +38,9 @@ const tests = [
         }
       }
     ],
-    `.m0 { margin: 0rem }
+    `.blue { color: blue }
+@media screen { .blue { color: lightblue } }
+.m0 { margin: 0rem }
 .ml0 { margin-left: 0rem }
 .mr0 { margin-right: 0rem }
 .m1 { margin: 1rem }

@@ -21,7 +21,14 @@ function isPropVal(x) {
 }
 
 function isRule(x) {
-  return type(x[0]) && Array.isArray(x[1]) && x[1].every(isPropVal);
+  if (!type(x[0]) || !Array.isArray(x[1])) return false;
+  var c = 1;
+
+  for (var i = 0; i < x[1].length; i++) {
+    if (!isPropVal(x[1][i])) c = 2;
+  }
+
+  return c;
 }
 
 function concatAll(xs) {
@@ -34,10 +41,30 @@ function array(o) {
   return Array.isArray(o) ? o : [o];
 }
 
-function flat(x, notRoot) {
-  return isRule(x) ? [x] : concatAll(x.map(function (y) {
+function flat(x) {
+  var c = isRule(x);
+  if (c === 2) x[1] = flat(x[1]);
+  return c ? [x] : concatAll(x.map(function (y) {
     return flat(y);
   }));
+}
+
+function range(s) {
+  var args = s.split(':').map(function (n) {
+    return parseInt(n);
+  }).slice(0, 3);
+  var start = args.length > 1 ? args[0] : 0;
+  var end = args[args.length - 1];
+  var step = args.length > 2 ? args[1] : 1;
+  var range = [];
+  var next = start;
+
+  while (start <= next && next < end) {
+    range.push(next);
+    next += step;
+  }
+
+  return range;
 }
 
 function deepClone(obj, clone) {
@@ -83,7 +110,7 @@ function inject(obj, vars, root) {
 function generate(flatRules) {
   return flatRules.map(function (pair) {
     return "".concat(pair[0], " { ").concat(pair[1].map(function (pair) {
-      return "".concat(pair[0], ": ").concat(pair[1]);
+      return Array.isArray(pair[1]) ? generate([pair]) : "".concat(pair[0], ": ").concat(pair[1]);
     }).join('; '), " }");
   }).join('\n');
 }
@@ -126,6 +153,7 @@ function flatten(input, vars, root) {
     var combos = [vars];
     Object.keys(input).forEach(function (k) {
       if (k === '_') return;
+      if (type(input[k])) input[k] = range(input[k]);
       combos = concatAll(input[k].map(function (v) {
         return combos.map(function (c) {
           c = deepClone(c);
