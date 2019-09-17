@@ -169,6 +169,15 @@ const tests = [
       // hai
       ['.mhai', [['margin', 'haipx']]]
     ]
+  ],
+  [
+    {
+      i: '0',
+      _: ['.m{i}', [['margin', '{i}px']]]
+    },
+    [
+      ['.m0', [['margin', '0px']]]
+    ]
   ]
 ];
 
