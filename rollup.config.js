@@ -11,7 +11,7 @@ export default outputs
     {
       input,
       output: {
-        name: 'nCSS',
+        name: 'nanoCSS',
         file: outputs.browser,
         format: 'umd',
         exports: 'named'

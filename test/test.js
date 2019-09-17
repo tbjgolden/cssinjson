@@ -1,6 +1,10 @@
 require('colors');
 
+const totals = [0, 0];
+
 const logResults = (name, [fails, total]) => {
+  totals[0] += fails;
+  totals[1] += total;
   console.log(name.yellow.bold);
   if (fails) {
     console.log(`> Test failed (${total - fails}/${total}) passed. ${fails} fails.`.red.bold);
@@ -11,7 +15,15 @@ const logResults = (name, [fails, total]) => {
 
 logResults('(sanity checks)', require('./sanity'));
 logResults('deepClone()', require('./deepClone'));
-logResults('flatten()', require('./flatten'));
+logResults('expand()', require('./expand'));
 logResults('inject()', require('./inject'));
 logResults('generate()', require('./generate'));
 logResults('nCSS()', require('./default'));
+
+const total = `${totals[1] - totals[0]} of ${totals[1]} tests passed`;
+
+console.log(
+`+${new Array(total.length + 2).fill('=').join('')}+
+| ${total} |
++${new Array(total.length + 2).fill('=').join('')}+`.blue.bold
+);

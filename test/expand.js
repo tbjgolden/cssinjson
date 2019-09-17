@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { flatten } = require('..');
+const { expand } = require('..');
 
 const tests = [
   [
@@ -15,7 +15,7 @@ const tests = [
         ]
       ],
       {
-        i: '5',
+        i: '0:4',
         _: [
           {
             $: [['.m', 'margin'], ['.p', 'padding']],
@@ -123,7 +123,25 @@ const tests = [
         ]
       },
       {
-        i: '6:2:12',
+        i: '7:12:2',
+        _: [
+          [
+            '.m{i}',
+            [['margin', '{i}px']]
+          ]
+        ]
+      },
+      {
+        i: '13:17:4',
+        _: [
+          [
+            '.m{i}',
+            [['margin', '{i}px']]
+          ]
+        ]
+      },
+      {
+        i: 'hai',
         _: [
           [
             '.m{i}',
@@ -133,12 +151,23 @@ const tests = [
       }
     ],
     [
+      // 0
       ['.m0', [['margin', '0px']]],
+      // 1
+      ['.m1', [['margin', '1px']]],
+      // 3:5
       ['.m3', [['margin', '3px']]],
       ['.m4', [['margin', '4px']]],
-      ['.m6', [['margin', '6px']]],
-      ['.m8', [['margin', '8px']]],
-      ['.m10', [['margin', '10px']]]
+      ['.m5', [['margin', '5px']]],
+      // 7:12:2
+      ['.m7', [['margin', '7px']]],
+      ['.m9', [['margin', '9px']]],
+      ['.m11', [['margin', '11px']]],
+      // 13:17:4
+      ['.m13', [['margin', '13px']]],
+      ['.m17', [['margin', '17px']]],
+      // hai
+      ['.mhai', [['margin', 'haipx']]]
     ]
   ]
 ];
@@ -146,7 +175,7 @@ const tests = [
 let fails = 0;
 tests.forEach(([input, expected]) => {
   try {
-    assert.strict.deepEqual(flatten(input), expected);
+    assert.strict.deepEqual(expand(input), expected);
   } catch (err) {
     fails += 1;
     console.error(err);

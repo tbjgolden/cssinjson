@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { flatten } = require('..');
+const { expand } = require('..');
 
 const pairs = [
   [
@@ -62,7 +62,7 @@ let fails = 0;
 pairs.forEach(([a, b]) => {
   tests += 1;
   try {
-    assert.strict.deepEqual(flatten(a), flatten(b), 'inputs did not generate same output');
+    assert.strict.deepEqual(expand(a), expand(b), 'inputs did not generate same output');
   } catch (err) {
     fails += 1;
     console.error(err);
@@ -77,7 +77,7 @@ pairs.forEach(pair => {
       const N = 100;
 
       const flattened = new Array(N).fill(0)
-        .map(_ => flatten(JSON.parse(JSON.stringify(input))));
+        .map(_ => expand(JSON.parse(JSON.stringify(input))));
 
       for (let i = 1; i < N; i++) {
         assert.strict.deepEqual(flattened[i - 1], flattened[i], 'inconsistent output');
@@ -96,9 +96,9 @@ pairs.forEach(pair => {
     pair.forEach(input => {
       const _input = JSON.parse(JSON.stringify(input));
       const $input = input;
-      flatten(input);
-      assert.strict.deepEqual(input, _input, 'flatten() is impure');
-      assert.strict.equal(input, $input, 'flatten() is impure');
+      expand(input);
+      assert.strict.deepEqual(input, _input, 'expand() is impure');
+      assert.strict.equal(input, $input, 'expand() is impure');
     });
   } catch (err) {
     fails += 1;

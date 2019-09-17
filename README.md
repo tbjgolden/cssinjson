@@ -1,4 +1,4 @@
-# nanoCSS
+# `nanoCSS`
 
 **CSS in JSON** - The optimal way to decrease your CSS bytes
 
@@ -25,7 +25,7 @@ the client.
 
 ## How big is this compiler?
 
-(<sup>[2]</sup>) nanocss's full compiler is 923 bytes compressed and gzipped.
+(<sup>[2]</sup>) nanoCSS's full compiler is 923 bytes compressed and gzipped.
 That's smaller than every CSS framework (even mincss, which is 995).
 
 The compiler relies on JSON.parse to reduce the size of the payload, and then
@@ -36,13 +36,16 @@ It comes in both ES6+ (923 bytes) and ES5-compliant (1044 bytes) variants.
 
 ## Usage
 
-This library contains the specification of the language, a compiler and
-relevant documentation.
+This library contains the specification of the language and a compiler that
+turns it into a CSS string.
 
-It doesn't specify how it is to be used, and can be used with `import`,
-`require` or in a browser - just like anything else.
+The compiler is designed to be used on the client-side, in the browser, but
+can also be used interoperably with `import` or `require`.
 
 Specific use case implementations are not implemented in this library.
+
+* [nanoCSS Language Specification](SPEC.md)
+* [Compiler API](API.md)
 
 ```sh
 # Some usage instructions

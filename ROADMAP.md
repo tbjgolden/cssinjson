@@ -1,12 +1,12 @@
 # Initial release objectives
 
-- [ ] documentation
 - [x] nested css support
 - [x] basic range support
-- [ ] CSS output formatting options
-- [ ] option to pass in custom middleware function for custom checks
+- [x] change range syntax `{start}:{end(start)}:{step(1)}`
+- [0] conditionals/ternarys
+- [ ] documentation
 - [ ] embedded version?
-- [ ] tests for sub functions
+- [x] tests for sub functions
 
 # Potential avenues
 
@@ -17,10 +17,11 @@
   * more powerful linting
   * option to pass in custom middleware function for custom checks
   * check for invalid versions?
+  * CSS output formatting options
   * documentation built into app (react implementation?)
     * triggered using console or button depending on option
     * check with a server that props and vals are valid?
-* make a compressor css to nanocss?
+* make a compressor css to nanoCSS?
 * React component
 * write tachyons-esque framework with it
 * check for unused (or infrequently used) selectors?
