@@ -1,7 +1,8 @@
 {
   "name": "cssinjson",
   "version": "1.0.0-alpha",
-  "description": "CSS in JSON - The optimal way to decrease your CSS bytes",
+  "description": "CSSinJSON - The optimal way to decrease your CSS bytes",
+  "keywords": ["css", "json", "sass", "less", "scss", "react", "compressor", "compression"],
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.js",
