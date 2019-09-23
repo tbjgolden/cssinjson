@@ -25,14 +25,14 @@ the client.
 
 ## How big is this compiler?
 
-(<sup>[2]</sup>) nanoCSS's full compiler is 923 bytes compressed and gzipped.
+(<sup>[2]</sup>) nanoCSS's full compiler is <!--<ES6-->987<!--ES6>--> bytes compressed and gzipped.
 That's smaller than every CSS framework (even mincss, which is 995).
 
 The compiler relies on JSON.parse to reduce the size of the payload, and then
 implements a tiny recursive algorithm to turn it into a flattened stylesheet
 array, or raw CSS.
 
-It comes in both ES6+ (923 bytes) and ES5-compliant (1044 bytes) variants.
+It comes in both ES6+ (<!--<ES6-->987<!--ES6>--> bytes) and ES5-compliant (<!--<ES5-->1206<!--ES5>--> bytes) variants.
 
 ## Usage
 
