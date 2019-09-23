@@ -12,7 +12,7 @@ export default outputs
     {
       input,
       output: {
-        name: 'nanoCSS',
+        name: 'CSSinJSON',
         file: outputs.browser,
         format: 'iife',
         exports: 'named'

@@ -28,10 +28,10 @@ var concatAll = function concatAll(xs) {
   }, []);
 };
 /**
- * Generates a CSS string from a nanoCSS object
- * @param {Object|Array|String} input - source nanoCSS as JSON string or object
+ * Generates a CSS string from a CSSinJSON object
+ * @param {Object|Array|String} input - source CSSinJSON as JSON string or object
  * @param {Object} [vars={_:[]}] - extra variables that can be used in compilation
- * @return {String} CSS - the CSS generated from the nanoCSS object, as a string
+ * @return {String} CSS - the CSS generated from the CSSinJSON object, as a string
  */
 
 
@@ -39,8 +39,8 @@ var compile = function compile(input, vars, root) {
   return generate(expand(input, vars, root));
 };
 /**
- * Expands a nanoCSS object into a flattened set of rules
- * @param {Object|Array|String} input - source nanoCSS as JSON (string or object)
+ * Expands a CSSinJSON object into a flattened set of rules
+ * @param {Object|Array|String} input - source CSSinJSON as JSON (string or object)
  * @return {Array} the corresponding flattened set of rules
  */
 

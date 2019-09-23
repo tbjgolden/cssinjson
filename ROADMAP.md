@@ -20,7 +20,7 @@
   * documentation built into app (react implementation?)
     * triggered using console or button depending on option
     * check with a server that props and vals are valid?
-* make a compressor css to nanoCSS?
+* make a compressor css to CSSinJSON?
 * React component
 * write tachyons-esque framework with it
 * check for unused (or infrequently used) selectors?

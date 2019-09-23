@@ -1,5 +1,5 @@
 {
-  "name": "nanoCSS",
+  "name": "cssinjson",
   "version": "1.0.0-alpha",
   "description": "CSS in JSON - The optimal way to decrease your CSS bytes",
   "main": "dist/index.cjs.js",
@@ -10,7 +10,7 @@
     "module": "dist/es5/index.esm.js",
     "browser": "dist/es5/index.js"
   },
-  "repository": "https://github.com/tbjgolden/nanocss.git",
+  "repository": "https://github.com/tbjgolden/cssinjson.git",
   "author": "Tom Golden <tbjgolden@gmail.com>",
   "license": "MIT",
   "devDependencies": {

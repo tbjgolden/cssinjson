@@ -1,4 +1,4 @@
-# nanoCSS Compiler API
+# CSSinJSON Compiler API
 
 All functions assume valid input. Behavior with invalid input is not defined -
 errors are not guaranteed - this is done to reduce the footprint.
@@ -9,10 +9,10 @@ A development environment friendly solution is on the roadmap.
 
 <dl>
 <dt><a href="#compile">compile(input, [vars])</a> ⇒ <code>String</code></dt>
-<dd><p>Generates a CSS string from a nanoCSS object</p>
+<dd><p>Generates a CSS string from a CSSinJSON object</p>
 </dd>
 <dt><a href="#expand">expand(input)</a> ⇒ <code>Array</code></dt>
-<dd><p>Expands a nanoCSS object into a flattened set of rules</p>
+<dd><p>Expands a CSSinJSON object into a flattened set of rules</p>
 </dd>
 <dt><a href="#generate">generate(flatRules)</a> ⇒ <code>String</code></dt>
 <dd><p>Generates a CSS string from a flattened set of rules</p>
@@ -28,27 +28,27 @@ A development environment friendly solution is on the roadmap.
 <a name="compile"></a>
 
 ## (default) compile(input, [vars]) ⇒ <code>String</code>
-Generates a CSS string from a nanoCSS object
+Generates a CSS string from a CSSinJSON object
 
 **Kind**: global function  
-**Returns**: <code>String</code> - CSS - the CSS generated from the nanoCSS object, as a string  
+**Returns**: <code>String</code> - CSS - the CSS generated from the CSSinJSON object, as a string  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| input | <code>Object</code> \| <code>Array</code> \| <code>String</code> |  | source nanoCSS as JSON string or object |
+| input | <code>Object</code> \| <code>Array</code> \| <code>String</code> |  | source CSSinJSON as JSON string or object |
 | [vars] | <code>Object</code> | <code>{_:[]}</code> | extra variables that can be used in compilation |
 
 <a name="expand"></a>
 
 ## expand(input) ⇒ <code>Array</code>
-Expands a nanoCSS object into a flattened set of rules
+Expands a CSSinJSON object into a flattened set of rules
 
 **Kind**: global function  
 **Returns**: <code>Array</code> - the corresponding flattened set of rules  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| input | <code>Object</code> \| <code>Array</code> \| <code>String</code> | source nanoCSS as JSON (string or object) |
+| input | <code>Object</code> \| <code>Array</code> \| <code>String</code> | source CSSinJSON as JSON (string or object) |
 
 <a name="generate"></a>
 

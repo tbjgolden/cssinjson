@@ -1,4 +1,4 @@
-# nanoCSS Language Specification
+# CSSinJSON Language Specification
 
 ## (:root) block <Block>
 
