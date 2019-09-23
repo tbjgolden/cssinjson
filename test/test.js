@@ -18,7 +18,7 @@ logResults('deepClone()', require('./deepClone'));
 logResults('expand()', require('./expand'));
 logResults('inject()', require('./inject'));
 logResults('generate()', require('./generate'));
-logResults('nCSS()', require('./default'));
+logResults('compile()', require('./compile'));
 
 const total = `${totals[1] - totals[0]} of ${totals[1]} tests passed`;
 

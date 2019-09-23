@@ -4,11 +4,11 @@
   "description": "CSS in JSON - The optimal way to decrease your CSS bytes",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "browser": "dist/index.umd.js",
+  "browser": "dist/index.js",
   "es5": {
     "main": "dist/es5/index.cjs.js",
     "module": "dist/es5/index.esm.js",
-    "browser": "dist/es5/index.umd.js"
+    "browser": "dist/es5/index.js"
   },
   "repository": "https://github.com/tbjgolden/nanocss.git",
   "author": "Tom Golden <tbjgolden@gmail.com>",
@@ -34,6 +34,7 @@
     "rollup": "^1.20.0",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-node-resolve": "^5.1.0",
+    "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-size-snapshot": "^0.10.0",
     "rollup-plugin-terser": "^5.1.1"
   },
@@ -54,7 +55,8 @@
         {
           "exclude": [
             "transform-typeof-symbol"
-          ]
+          ],
+          "loose": true
         }
       ]
     ],

@@ -1,11 +1,5 @@
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = nanoCSS;
-exports.expand = expand;
-exports.generate = generate;
-exports.inject = inject;
-exports.deepClone = deepClone;
+exports.__esModule = true;
+exports.deepClone = exports.inject = exports.generate = exports.expand = exports.compile = void 0;
 
 /* eslint-disable no-self-compare */
 var varRegex = /\{(\^*)([0-9a-z]+)\}/i;
@@ -13,24 +7,24 @@ var ampRegex = /&/g; // Helpers
 
 var isArray = Array.isArray;
 
-function isNaN(n) {
+var isNaN = function isNaN(n) {
   return n !== n;
-}
+};
 
-function type(x, s) {
+var type = function type(x, s) {
   s = s || 's';
   return (typeof x)[0] === s;
-}
+};
 
-function array(o) {
+var array = function array(o) {
   return isArray(o) ? o : [o];
-}
+};
 
-function concatAll(xs) {
+var concatAll = function concatAll(xs) {
   return xs.reduce(function (l, x) {
     return l.concat(x);
   }, []);
-}
+};
 /**
  * Generates a CSS string from a nanoCSS object
  * @param {Object|Array|String} input - source nanoCSS as JSON string or object
@@ -39,9 +33,9 @@ function concatAll(xs) {
  */
 
 
-function nanoCSS(input, vars, root) {
+var compile = function compile(input, vars, root) {
   return generate(expand(input, vars, root));
-}
+};
 /**
  * Expands a nanoCSS object into a flattened set of rules
  * @param {Object|Array|String} input - source nanoCSS as JSON (string or object)
@@ -49,7 +43,9 @@ function nanoCSS(input, vars, root) {
  */
 
 
-function expand(input, vars, root) {
+exports.compile = compile;
+
+var expand = function expand(input, vars, root) {
   vars = vars || {};
   vars._ = vars._ || [];
   root = type(root, 'b') ? root : true;
@@ -103,7 +99,7 @@ function expand(input, vars, root) {
   }
 
   return root ? flat(stylesheet) : stylesheet;
-}
+};
 /**
  * Generates a CSS string from a flattened set of rules
  * @param {Array} flatRules - the flattened representation of a stylesheet
@@ -111,13 +107,15 @@ function expand(input, vars, root) {
  */
 
 
-function generate(flatRules) {
+exports.expand = expand;
+
+var generate = function generate(flatRules) {
   return flatRules.map(function (pair) {
-    return "".concat(pair[0], " { ").concat(pair[1].map(function (pair) {
-      return isArray(pair[1]) ? generate([pair]) : "".concat(pair[0], ": ").concat(pair[1]);
-    }).join('; '), " }");
+    return pair[0] + " { " + pair[1].map(function (pair) {
+      return isArray(pair[1]) ? generate([pair]) : pair[0] + ": " + pair[1];
+    }).join('; ') + " }";
   }).join('\n');
-}
+};
 /**
  * Replaces all instances of variable syntax in an object with their values
  * @param {*} value - value to check for variable syntax
@@ -126,7 +124,9 @@ function generate(flatRules) {
  */
 
 
-function inject(value, vars, root) {
+exports.generate = generate;
+
+var inject = function inject(value, vars, root) {
   vars = vars || {};
   vars._ = vars._ || [];
   root = type(root, 'b') ? root : true;
@@ -149,11 +149,11 @@ function inject(value, vars, root) {
 
   if (root && vars._.length) {
     var sel = vars._[vars._.length - 1][0];
-    return ~value.indexOf('&') ? value.replace(ampRegex, sel) : "".concat(sel).concat(value);
+    return ~value.indexOf('&') ? value.replace(ampRegex, sel) : "" + sel + value;
   }
 
   return value;
-}
+};
 /**
  * A fast and small deep clone algorithm
  * @param {Object} obj - object to deep clone
@@ -162,7 +162,9 @@ function inject(value, vars, root) {
  */
 
 
-function deepClone(obj, clone) {
+exports.inject = inject;
+
+var deepClone = function deepClone(obj, clone) {
   clone = clone || {};
 
   for (var k in obj) {
@@ -171,7 +173,7 @@ function deepClone(obj, clone) {
   }
 
   return clone;
-}
+};
 /**
  * Determines if an array is a valid property value pair.
  * @private
@@ -180,9 +182,11 @@ function deepClone(obj, clone) {
  */
 
 
-function isPropVal(x) {
+exports.deepClone = deepClone;
+
+var isPropVal = function isPropVal(x) {
   return type(x[0]) && type(x[1]);
-}
+};
 /**
  * Determines if an array is a valid simple rule, a valid nested rule, or neither.
  * @private
@@ -191,7 +195,7 @@ function isPropVal(x) {
  **/
 
 
-function isRule(arr) {
+var isRule = function isRule(arr) {
   if (!type(arr[0]) || !isArray(arr[1])) return false;
   var c = 1;
 
@@ -200,7 +204,7 @@ function isRule(arr) {
   }
 
   return c;
-}
+};
 /**
  * A function which reduces an expanded stylesheet to its simplest form.
  * @private
@@ -209,13 +213,13 @@ function isRule(arr) {
  **/
 
 
-function flat(arr) {
+var flat = function flat(arr) {
   var c = isRule(arr);
   if (c === 2) arr[1] = flat(arr[1]);
   return c ? [arr] : concatAll(arr.map(function (child) {
     return flat(child);
   }));
-}
+};
 /**
  * A function which expands valid range syntax, and wraps invalid in an array.
  * @private
@@ -224,7 +228,7 @@ function flat(arr) {
  */
 
 
-function range(s) {
+var range = function range(s) {
   var args = s.split(':').map(function (n) {
     return parseInt(n);
   });
@@ -241,4 +245,4 @@ function range(s) {
   }
 
   return range;
-}
+};

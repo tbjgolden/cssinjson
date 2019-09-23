@@ -3,10 +3,9 @@
 - [x] nested css support
 - [x] basic range support
 - [x] change range syntax `{start}:{end(start)}:{step(1)}`
-- [0] conditionals/ternarys
-- [ ] documentation
-- [ ] embedded version?
 - [x] tests for sub functions
+- [x] documentation
+- [x] language spec
 
 # Potential avenues
 

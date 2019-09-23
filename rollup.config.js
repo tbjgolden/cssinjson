@@ -1,4 +1,5 @@
 import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
@@ -13,10 +14,18 @@ export default outputs
       output: {
         name: 'nanoCSS',
         file: outputs.browser,
-        format: 'umd',
+        format: 'iife',
         exports: 'named'
       },
-      plugins: [resolve(), commonjs(), terser(), sizeSnapshot()]
+      plugins: [
+        resolve(),
+        commonjs(),
+        terser(),
+        replace({
+          const: 'let'
+        }),
+        sizeSnapshot()
+      ]
     },
     {
       input,

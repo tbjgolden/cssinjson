@@ -1,9 +1,14 @@
 # nanoCSS Compiler API
 
+All functions assume valid input. Behavior with invalid input is not defined -
+errors are not guaranteed - this is done to reduce the footprint.
+
+A development environment friendly solution is on the roadmap.
+
 ## Functions
 
 <dl>
-<dt><a href="#nanoCSS">(default) nanoCSS(input, [vars])</a> ⇒ <code>String</code></dt>
+<dt><a href="#compile">compile(input, [vars])</a> ⇒ <code>String</code></dt>
 <dd><p>Generates a CSS string from a nanoCSS object</p>
 </dd>
 <dt><a href="#expand">expand(input)</a> ⇒ <code>Array</code></dt>
@@ -20,9 +25,9 @@
 </dd>
 </dl>
 
-<a name="nanoCSS"></a>
+<a name="compile"></a>
 
-## (default) nanoCSS(input, [vars]) ⇒ <code>String</code>
+## (default) compile(input, [vars]) ⇒ <code>String</code>
 Generates a CSS string from a nanoCSS object
 
 **Kind**: global function  

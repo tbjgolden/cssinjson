@@ -42,11 +42,64 @@ turns it into a CSS string.
 The compiler is designed to be used on the client-side, in the browser, but
 can also be used interoperably with `import` or `require`.
 
-Specific use case implementations are not implemented in this library.
+Specific use case implementations (e.g. React) are not implemented in this
+library.
 
 * [nanoCSS Language Specification](SPEC.md)
 * [Compiler API](API.md)
 
+## JS <script> tag
+
 ```sh
 # Some usage instructions
+yarn add nanocss # or `npm i nanocss`
+```
+
+(for ES5+)
+
+```html
+<script src="./node_modules/nanocss/dist/es5/index.js"></script>
+```
+
+(for ES6+)
+
+```html
+<script src="./node_modules/nanocss/dist/index.js"></script>
+```
+
+> Alternatively, you could instead just copy/download the compiler from
+> [here for ES5+](dist/es5/index.js) or [here for ES6+](dist/index.js).
+
+Then, you can access the methods from the nanoCSS object:
+
+```js
+console.log(
+  nanoCSS.compile([
+    ['@media (max-width: 800px)', [[
+      '.red',
+      [['color', 'red']]
+    ]]]
+  ])
+); // logs "@media (max-width: 800px) { .red { color: red } }"
+```
+
+## Webpack/Node (import/require)
+
+```sh
+# Some usage instructions
+yarn add nanocss # or `npm i nanocss`
+```
+
+```js
+// either this, for webpack
+import { compile } from 'nanocss';
+// or this, for node
+const { compile } = require('nanocss');
+
+console.log(
+  nanoCSS.compile([[
+    '.red',
+    [['color', 'red']]
+  ]])
+); // logs ".red { color: red }"
 ```

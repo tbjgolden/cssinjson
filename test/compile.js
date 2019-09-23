@@ -1,5 +1,5 @@
 const assert = require('assert');
-const nCSS = require('..').default;
+const compile = require('..').compile;
 
 const tests = [
   [
@@ -62,7 +62,7 @@ let fails = 0;
 tests.forEach(([input, expected]) => {
   try {
     assert.strict.deepEqual(
-      nCSS(input),
+      compile(input),
       expected
     );
   } catch (err) {

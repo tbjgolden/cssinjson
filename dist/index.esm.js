@@ -5,10 +5,10 @@ const ampRegex = /&/g;
 
 // Helpers
 const isArray = Array.isArray;
-function isNaN (n) { return n !== n; }
-function type (x, s) { s = s || 's'; return (typeof x)[0] === s; }
-function array (o) { return isArray(o) ? o : [o]; }
-function concatAll (xs) { return xs.reduce((l, x) => l.concat(x), []); }
+const isNaN = n => n !== n;
+const type = (x, s) => { s = s || 's'; return (typeof x)[0] === s; };
+const array = o => isArray(o) ? o : [o];
+const concatAll = xs => xs.reduce((l, x) => l.concat(x), []);
 
 /**
  * Generates a CSS string from a nanoCSS object
@@ -16,16 +16,14 @@ function concatAll (xs) { return xs.reduce((l, x) => l.concat(x), []); }
  * @param {Object} [vars={_:[]}] - extra variables that can be used in compilation
  * @return {String} CSS - the CSS generated from the nanoCSS object, as a string
  */
-function nanoCSS (input, vars, root) {
-  return generate(expand(input, vars, root));
-}
+const compile = (input, vars, root) => generate(expand(input, vars, root));
 
 /**
  * Expands a nanoCSS object into a flattened set of rules
  * @param {Object|Array|String} input - source nanoCSS as JSON (string or object)
  * @return {Array} the corresponding flattened set of rules
  */
-function expand (input, vars, root) {
+const expand = (input, vars, root) => {
   vars = vars || {};
   vars._ = vars._ || [];
   root = type(root, 'b') ? root : true;
@@ -90,15 +88,15 @@ function expand (input, vars, root) {
   }
 
   return root ? flat(stylesheet) : stylesheet;
-}
+};
 
 /**
  * Generates a CSS string from a flattened set of rules
  * @param {Array} flatRules - the flattened representation of a stylesheet
  * @return {String} CSS - the CSS generated from the rules, as a string
  */
-function generate (flatRules) {
-  return flatRules
+const generate = flatRules => (
+  flatRules
     .map(pair => `${pair[0]} { ${
       pair[1]
         .map(pair => (
@@ -108,8 +106,8 @@ function generate (flatRules) {
         ))
         .join('; ')
     } }`)
-    .join('\n');
-}
+    .join('\n')
+);
 
 /**
  * Replaces all instances of variable syntax in an object with their values
@@ -117,7 +115,7 @@ function generate (flatRules) {
  * @param {Object} [vars={_:[]}] - object to clone into (persists own keys)
  * @return {Array|String} value with all variable syntax replaced by values
  */
-function inject (value, vars, root) {
+const inject = (value, vars, root) => {
   vars = vars || {};
   vars._ = vars._ || [];
   root = type(root, 'b') ? root : true;
@@ -143,7 +141,7 @@ function inject (value, vars, root) {
   }
 
   return value;
-}
+};
 
 /**
  * A fast and small deep clone algorithm
@@ -151,14 +149,14 @@ function inject (value, vars, root) {
  * @param {Object} [clone={}] - object to clone into (persists own keys)
  * @return {Object}
  */
-function deepClone (obj, clone) {
+const deepClone = (obj, clone) => {
   clone = clone || {};
   for (let k in obj) {
     const o = obj[k];
     clone[k] = clone[k] || ((o && type(o, 'o')) ? deepClone(o.constructor(), o) : o);
   }
   return clone;
-}
+};
 
 /**
  * Determines if an array is a valid property value pair.
@@ -166,7 +164,7 @@ function deepClone (obj, clone) {
  * @param  {Array} arr - array to check.
  * @return {Boolean}
  */
-function isPropVal (x) { return type(x[0]) && type(x[1]); }
+const isPropVal = x => type(x[0]) && type(x[1]);
 
 /**
  * Determines if an array is a valid simple rule, a valid nested rule, or neither.
@@ -174,14 +172,14 @@ function isPropVal (x) { return type(x[0]) && type(x[1]); }
  * @param {Array} arr - array to check.
  * @return {Boolean|Number} 1 if a leaf rule, 2 if it contains rules, false otherwise
  **/
-function isRule (arr) {
+const isRule = arr => {
   if (!type(arr[0]) || !isArray(arr[1])) return false;
   let c = 1;
   for (let i = 0; i < arr[1].length; i++) {
     if (!isPropVal(arr[1][i])) c = 2;
   }
   return c;
-}
+};
 
 /**
  * A function which reduces an expanded stylesheet to its simplest form.
@@ -189,11 +187,11 @@ function isRule (arr) {
  * @param {Array} arr - array to flatten.
  * @return {Array}
  **/
-function flat (arr) {
+const flat = arr => {
   const c = isRule(arr);
   if (c === 2) arr[1] = flat(arr[1]);
   return c ? [arr] : concatAll(arr.map(child => flat(child)));
-}
+};
 
 /**
  * A function which expands valid range syntax, and wraps invalid in an array.
@@ -201,7 +199,7 @@ function flat (arr) {
  * @param {String} value - string to check and expand
  * @return {Array}
  */
-function range (s) {
+const range = s => {
   const args = s.split(':').map(n => parseInt(n));
   if (isNaN(args[0]) || isNaN(args[1]) || isNaN(args[2])) return [s];
   const start = args[0];
@@ -214,7 +212,6 @@ function range (s) {
     next += step;
   }
   return range;
-}
+};
 
-export default nanoCSS;
-export { deepClone, expand, generate, inject };
+export { compile, deepClone, expand, generate, inject };
