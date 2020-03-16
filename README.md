@@ -1,3 +1,7 @@
+## **This project has been frozen. New projects should use [ainsley](https://github.com/tbjgolden/ainsley) instead.**
+
+---
+
 # `CSSinJSON`
 
 **CSSinJSON** - The optimal way to decrease your CSS bytes
